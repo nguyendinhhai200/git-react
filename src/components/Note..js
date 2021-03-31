@@ -82,3 +82,5 @@ const errors =  this.validate(this.state.firstname, this.state.lastname, this.st
                                     </Input>
                                     <FormFeedback>{errors.firstname}</FormFeedback> // dòng này để hiển thị thông báo lỗi dưới trường sai
                                 </Col>
+    // class="ml-auto" sẽ chuyển thành phần đó sang bên phải
+    //ref will get you a reference to the Input component. Use innerRef to get a reference to the underlying input.
