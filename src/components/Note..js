@@ -65,3 +65,20 @@ handleInputChange(event){
         [name] :value
     });
 }
+
+// khi có bất kì sự thay đổi nào thì mọi biến , giá trị được khai báo trong phần render đều sẽ được cập nhật lại giá trị đó
+// Khi sử dụng formgroup thì thường đi kèm với FormFeedBack để kiểm tra ràng buộc về dữ liệu được nhập vào 
+const errors =  this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email); 
+
+
+                                <Col md={10}>
+                                    <Input type="text" id="firstname" name="firstname"
+                                    placeholder="First Name" 
+                                    value={this.state.firstname}
+                                    valid={errors.firstname===''} // quan trong
+                                    invalid = {errors.firstname !== ''}    // quan trong
+                                    onBlur={this.handleBlur('firstname')}   // khi nháy chuột ra khỏi trường này thì hàm được gọi sẽ chạy
+                                    onChange={this.handleInputChange}>
+                                    </Input>
+                                    <FormFeedback>{errors.firstname}</FormFeedback> // dòng này để hiển thị thông báo lỗi dưới trường sai
+                                </Col>
