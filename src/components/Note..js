@@ -86,3 +86,33 @@ const errors =  this.validate(this.state.firstname, this.state.lastname, this.st
     //ref will get you a reference to the Input component. Use innerRef to get a reference to the underlying input.
 
     toggle={this.toggleModal} // sử dụng thuộc tính thì khi nhấn chuột ra ngoài form , form này sẽ ẩn , nếu không có thì nó vấn hiển thị
+
+
+
+
+
+//validation use react-redux-form 
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => val && (val.length >= len);
+const isNumber = (val) => !isNaN(Number(val));
+const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
+   // --> day là các giá trị đúng sai để kiểm tra xem có đúng với yêu cầu hay không
+
+                                    Control.text model=".email" id="email" name="email"
+                                        placeholder="Email"
+                                        className="form-control"
+                                        validators={{
+                                            required, validEmail
+                                        }}
+                                         />
+                                    <Errors
+                                        className="text-danger"
+                                        model=".email"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',
+                                            validEmail: 'Invalid Email Address'
+                                        }}
+                                     />
+// cần đóng gói trong LocalForm > ROW > Control.text( model)  . thuộc tính model để ánh xa xuống phần tử tưởng ứng Errors
