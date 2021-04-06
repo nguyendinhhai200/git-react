@@ -84,3 +84,5 @@ const errors =  this.validate(this.state.firstname, this.state.lastname, this.st
                                 </Col>
     // class="ml-auto" sẽ chuyển thành phần đó sang bên phải
     //ref will get you a reference to the Input component. Use innerRef to get a reference to the underlying input.
+
+    toggle={this.toggleModal} // sử dụng thuộc tính thì khi nhấn chuột ra ngoài form , form này sẽ ẩn , nếu không có thì nó vấn hiển thị
