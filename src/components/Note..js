@@ -116,3 +116,10 @@ const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val
                                         }}
                                      />
 // cần đóng gói trong LocalForm > ROW > Control.text( model)  . thuộc tính model để ánh xa xuống phần tử tưởng ứng Errors
+
+
+// tạo Form có thể dùng Form > FormGroup(Label, Col) > ... 
+// Hoặc có thể sử dụng LocalForm > Row > (Label, Col(Control.text/select), Errors(tương tác thông qua thuộc tính model))
+// Sử dụng uncontrolled Form để toggle thì dùng thêm Model liên kết qua thuộc tính
+                        // isOpen : trạng thái hiển thị hay k?
+                        // toggle : xử lí ẩn khi click chuột ra bên ngoài
