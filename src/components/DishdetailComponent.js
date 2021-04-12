@@ -3,8 +3,7 @@ import { Card , CardImg, BreadcrumbItem, Breadcrumb, Button , CardImgOverlay , C
 import { Link } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import {Control, LocalForm, Errors  } from 'react-redux-form';
-
-
+import {Loading } from './LoadingComponent';
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -22,25 +21,51 @@ const minLength = (len) => (val) => val && (val.length >= len);
                 </div>
             );
     }
-    function RenderComments({comments} ){
-        let listComments =  [];
-            for(let i = 0 ; i < comments.length; i++){
-                let temp = "--" + comments[i].author.concat(", ").concat(comments[i].date.substring(0,11));
-                listComments.push([comments[i].comment,temp]);
-            }
-            console.log(listComments);
-            const results = listComments.map((element) => {
-                return(
-                    <div>
-                        <h5>{element[0]}</h5>
-                        <h5>{element[1]}</h5>
-                    </div>
-                )
-             });
-             return results;
+
+    function RenderComments({comments , addComment, dishId} ){
+       
+        if(comments !=null ){
+            return(
+                <div className="col-12 col-md-12 m-1">
+                    <h4>Comments</h4>
+                    <ul className="list-unstyled">
+                        {comments.map((cmt) =>{
+                            return (
+                                <li key={cmt.id}> 
+                                    <p>{cmt.comment}</p>
+                                    <p>-- {cmt.author} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(cmt.date)))}</p>
+                                 </li>
+                            );
+                        })}
+                    </ul>
+                    <CommentForm dishId={dishId} addComment={addComment}></CommentForm>
+                </div>
+            )
+        }
+        else
+            return (
+                <div></div>
+            )
+        
     }
 
     const DishDetail = (props) => {
+        if(props.isLoading){
+            return(
+                <div className="container">
+                    <div className="row">
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+        else if(props.errMess){
+            <div className="container">
+                    <div className="row">
+                        <h4>{props.errMess}</h4>
+                    </div>
+            </div>
+        }
         if(props.dish != null){
             return (
                 <div className="container">
@@ -53,16 +78,17 @@ const minLength = (len) => (val) => val && (val.length >= len);
                     <div className="col-12">
                         <h3>{props.dish.name}</h3>
                         <hr />
-                    </div>                
+                    </div>                  
                 </div>
                 <div className="row">
                     <div className="col-12 col-md-5 m-1">
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={props.comments} />
+                        <RenderComments comments={props.comments}  addComment={props.addComment} 
+                            dishId={props.dish.id}/>
                         <br/>
-                        <CommentForm/>
+                        
                     </div>
                     
                 </div>
@@ -82,7 +108,7 @@ class CommentForm extends React.Component {
             isModelSubmit : false,
         }
         this.toggleModelSubmit = this.toggleModelSubmit.bind(this);
-        this.RenderComments = this.RenderComments.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     toggleModelSubmit(){
         this.setState({
@@ -90,19 +116,20 @@ class CommentForm extends React.Component {
         })
     }
 
-    RenderComments(values){
-        console.log("Current state is: " + JSON.stringify(values));
-        alert("Current state is: " + JSON.stringify(values));
+    handleSubmit(values){
+        this.toggleModelSubmit();
+        console.log(values)
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment); 
     }
 
     render(){
         return (
             <div>
                 <Button outline onClick={this.toggleModelSubmit}><span className="fa fa-edit fa-lg"></span> Submit Comment</Button>
-                <Modal isOpen={this.state.isModelSubmit} toggle={this.toggleModelSubmit}>
+                <Modal isOpen={this.state.isModelSubmit} >
                     <ModalHeader>Submit Comment</ModalHeader>
                     <ModalBody>
-                          <LocalForm onSubmit={(values) => {this.RenderComments(values)}}> 
+                          <LocalForm onSubmit={(values) => {this.handleSubmit(values)}}> 
                             <Row>
                                 <Label md={{offset:1}}>Rating</Label>
                             </Row>
@@ -123,14 +150,14 @@ class CommentForm extends React.Component {
                             </Row>
                             <Row>
                                 <Col md={10}>
-                                    <Control.text model=".yourname" id="yourname" name="yourname"
+                                    <Control.text model=".author" id="author" name="author"
                                     className="form-control"
                                     validators={{
                                         required , minLength : minLength(3), maxLength:maxLength(15)
                                     }}
                                     />
                                     <Errors className="text-danger"
-                                     model=".yourname"
+                                     model=".author"
                                     show="touched"
                                     messages={{
                                         required : "Required",
@@ -145,7 +172,7 @@ class CommentForm extends React.Component {
                             </Row>
                             <Row>
                                 <Col md={10}>
-                                    <Control.textarea model=".Comment" id="comment" name="comment"
+                                    <Control.textarea model=".comment" id="comment" name="comment"
                                     className="form-control"
                                     rows="6"
                                     />

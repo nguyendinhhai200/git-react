@@ -123,3 +123,9 @@ const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val
 // Sử dụng uncontrolled Form để toggle thì dùng thêm Model liên kết qua thuộc tính
                         // isOpen : trạng thái hiển thị hay k?
                         // toggle : xử lí ẩn khi click chuột ra bên ngoài
+
+
+
+
+// Cấu trúc redux
+                    // +. Action  :: là một đối tượng , xuất hiện khi ấn 1 sự kiện
