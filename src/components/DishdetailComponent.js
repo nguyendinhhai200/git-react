@@ -25,7 +25,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
             );
     }
 
-    function RenderComments({comments , addComment, dishId} ){
+    function RenderComments({comments , postComment, dishId} ){
        
         if(comments !=null ){
             return(
@@ -41,7 +41,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                             );
                         })}
                     </ul>
-                    <CommentForm dishId={dishId} addComment={addComment}></CommentForm>
+                    <CommentForm dishId={dishId} postComment={postComment}></CommentForm>
                 </div>
             )
         }
@@ -88,7 +88,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={props.comments}  addComment={props.addComment} 
+                        <RenderComments comments={props.comments}  postComment={props.postComment} 
                             dishId={props.dish.id}/>
                         <br/>
                         
@@ -122,7 +122,7 @@ class CommentForm extends React.Component {
     handleSubmit(values){
         this.toggleModelSubmit();
         console.log(values)
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment); 
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment); 
     }
 
     render(){
