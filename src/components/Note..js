@@ -129,3 +129,13 @@ const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val
 
 // Cấu trúc redux
                     // +. Action  :: là một đối tượng , xuất hiện khi ấn 1 sự kiện
+
+
+
+
+
+
+
+// React-redux-form : dùng để lưu lại thông tin đã nhập dở vào một biểu mẫu khi điều hướng đi nơi khác thì vẫn dữ lại 
+                                        // biểu mẫu : sử dụng form , model="feedback"
+                                        // dispatch(actions.reset("feedback"))
